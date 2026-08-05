@@ -1,17 +1,35 @@
 import type { Product } from '../../types/Product'
 
-
 type Props = {
   product: Product
+  onClick: (product: Product) => void
 }
 
-export default function ProductCard({ product }: Props) {
+export default function ProductCard({ product, onClick }: Props) {
   return (
-    <li className="item-list-item" key={product.id}>
+    <li className="item-list-item">
       <div className="item-list-item-img">
-        <a href=""><img src="https://placehold.jp/CCC/999/300x300.png" decoding="async" loading="lazy" alt="" /></a>
+        <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault()
+              onClick(product)
+            }}
+          >
+          <img src="https://placehold.jp/CCC/999/300x300.png" decoding="async" loading="lazy" alt="" />
+        </a>
       </div>
-      <h2 className="item-list-item-name"><a href="">{product.name}</a></h2>
+      <h2 className="item-list-item-name">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            onClick(product)
+          }}
+        >
+          {product.name}
+        </a>
+      </h2>
       <div className="item-list-item-price">
         <span className="price-unit">&yen;</span>
         <span className="price-value">{product.price}</span>

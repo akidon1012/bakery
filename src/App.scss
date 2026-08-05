@@ -1,3 +1,8 @@
+@use './components/Header/Header.scss';
+
+.contents {
+  padding-top: 40px;
+}
 .item-list {
   display: flex;
   flex-wrap: wrap;
@@ -13,6 +18,14 @@
           max-width: 100%;
         }
       }
+    }
+  }
+  &-wrapper {
+    input[type="text"] {
+      width: 300px;
+      height: 40px;
+      padding: 0 15px;
+      font-size: 16px;
     }
   }
 }
