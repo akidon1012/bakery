@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+@use "../global" as *;
+
+:root {
+  color-scheme: light;
+}
+html {
+  overflow-y: scroll;
+}
+body {
+  color: $color-text;
+  font-family: $font-ja;
+  // font-weight: 500;
+  min-width: 1240px;
+  background: $color-bg;
+  @include mq() {
+    min-width: 0;
+  }
+}
+// media query
+@media screen and (max-width: 767px) {
+  .show-pc {
+    display: none !important;
+  }
+}
+@media screen and (min-width: 768px) {
+  .show-sp {
+    display: none !important;
+  }
+}
+
+a {
+  color: $color-text;
+  text-decoration: none;
+  transition: all 0.3s;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.icon {
+  display: inline-block;
+}

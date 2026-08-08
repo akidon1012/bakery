@@ -1,0 +1,89 @@
+@charset "utf-8";
+
+// width
+$width-page-pc: 1200px;
+$width-sub-window: 500px;
+$width-main: 894px;
+$width-sub: 242px;
+$width-contents-narrow: 894px; 
+$width-sidemenu: 320px;
+$width-side-sp: 12px;
+
+// font
+$font-ja: 'Noto Sans JP', sans-serif;
+$font-en: 'Marcellus', serif;
+
+$font-weight-bold: 700;
+$font-weight-semi-bold: 600;
+$font-weight-medium: 500;
+$font-weight-regular: 400;
+$font-weight-light: 300;
+$font-weight-ex-light: 200;
+
+// color
+$color-primary: #4A3428;
+$color-socondary: #C9A46A;
+$color-bg: #FCFBF9;
+$color-text: #333;
+$color-text2: #888;
+$color-text3: #333;
+$color-text4: #777;
+$color-red: #8B3A4A;
+$color-background: #f5f5f5;
+$color-border: #BCAEA4;
+$color-th-bg: #F4EEE7;
+$color-link: #000;
+$color-brand: #e4007f;
+$color-blue: #00a0e9;
+$color-yellow: #fff100;
+$color-star: #FEC600;
+$color-popup: #F5F5F5;
+
+$color-background-gray: #efefef;
+
+$color-btn-main: #444;
+$color-btn-sub: #666;
+$color-btn-cart: #444;
+$color-btn-cancel: #444;
+$color-btn-disabled: #EEE;
+$color-text-disabled: #CCC;
+$color-btn-favorite: #EEE;
+$color-text-favorite: #888;
+$color-icon-favorite-off: #CCC;
+$color-icon-favorite-on: #F361B0;
+$color-btn-estimate: #00a434;
+$color-icons: #A59662;
+
+
+body {
+  --color-main: #444;
+  --color-background: #F5F5F5;
+  --color-btn-main: #444;
+  --color-icons: #A59662;
+  --font-en: 'Lato', 'Yu Gothic Medium', '游ゴシック Medium', YuGothic, '游ゴシック体', 'ヒラギノ角ゴ Pro W3', 'メイリオ', sans-serif;
+}
+
+
+[data-brand="PC"] {
+  --color-main: #A59662;
+  --color-background: #F5F5F5;
+  --color-icons: #A59662;
+  --font-en: 'Roboto', 'Yu Gothic Medium', '游ゴシック Medium', YuGothic, '游ゴシック体', 'ヒラギノ角ゴ Pro W3', 'メイリオ', sans-serif;
+}
+
+[data-brand="LE"] {
+  --color-main: #4E3B32;
+  --color-background: #F5F5F5;
+  --color-icons: #A59662;
+  --font-en: 'Aboreto', 'Yu Gothic Medium', '游ゴシック Medium', YuGothic, '游ゴシック体', 'ヒラギノ角ゴ Pro W3', 'メイリオ', sans-serif;
+}
+
+[data-brand="ML"] {
+  --color-main: #231815;
+  --color-background: #F5F5F5;
+  --color-icons: #C7B081;
+  --font-en: 'Jost', 'Yu Gothic Medium', '游ゴシック Medium', YuGothic, '游ゴシック体', 'ヒラギノ角ゴ Pro W3', 'メイリオ', sans-serif;
+  .section-header .en {
+    font-weight: $font-weight-regular;
+  }
+}

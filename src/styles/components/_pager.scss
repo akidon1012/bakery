@@ -1,0 +1,99 @@
+@charset "utf-8";
+
+@use "../global" as *;
+
+.pager {
+  margin: 40px 0;
+  .num {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 5px;
+    letter-spacing: 0.04em;
+  }
+  &-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &-prev, &-next {
+    margin: 0 12px;
+    a {
+      display: block;
+      color: $color-text2;
+      font-size: 15px;
+      position: relative;
+      width: 20px;
+      height: 34px;
+      &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 50%;
+        margin-top: -5px;
+        width: 8px;
+        height: 8px;
+        transform: rotate(45deg);
+      }
+    }
+  }
+  &-prev {
+    a {
+      &::before, &::after {
+        border-left: 2px solid #000;
+        border-bottom: 2px solid #000;
+        left: 0;
+      }
+    }
+  }
+  &-next {
+    a {
+      &::before, &::after {
+        border-top: 2px solid #000;
+        border-right: 2px solid #000;
+        right: 0;
+      }
+    }
+  }
+  &-num {
+    display: block;
+    margin: 0 2px;
+    &-wrapper {
+      display: flex;
+    }
+    a, >span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 32px;
+      height: 32px;
+      color: $color-text;
+      font-size: 16px;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: 6px;
+      border: 1px solid #D9D9D9;
+      background: #FFF;
+      &:hover {
+        background-color: #D9D9D9;
+        text-decoration: none;
+      }
+    }
+    &.is_current {
+      a, >span {
+        color: #FFF;
+        border-color: $color-btn-main;
+        background: $color-btn-main;
+      }
+    }
+  }
+  &-text {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  @include mq() {
+    display: block;
+    &-wrapper {
+      justify-content: center;
+    }
+  }
+}

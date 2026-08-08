@@ -1,0 +1,77 @@
+@use '../../styles/index.scss' as *;
+
+.item-list {
+  &-filter {
+    margin-bottom: 40px;
+    @include mq() {
+      margin-bottom: 20px;
+    }
+  }
+  &-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    input[type="text"] {
+      width: 320px;
+      height: 48px;
+      padding: 0 10px;
+      border: 1px solid $color-border;
+      border-radius: 5px;
+    }
+    &-clear {
+      margin-left: 10px;
+      background: none;
+      font-size: 14px;
+    }
+    @include mq() {
+      input[type="text"] {
+        width: 100%;
+      }
+      &-clear {
+        margin-left: 10px;
+        font-size: 11px;
+        white-space: nowrap;
+      }
+    }
+  }
+  &-category {
+    &-list {
+      display: flex;
+      justify-content: center;
+      &-item {
+        margin: 0 10px;
+        button {
+          border: 1px solid $color-primary;
+          border-radius: 5px;
+          padding: 0 10px;
+          height: 48px;
+          background-color: transparent;
+          color: $color-primary;
+          font-size: 16px;
+        }
+        &.is_active {
+          button {
+            background-color: $color-primary;
+            color: #FFF;
+          }
+        }
+      }
+    }
+    @include mq() {
+      &-list {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        &-item {
+          margin: 0 5px 10px;
+          button {
+            border-radius: 3px;
+            padding: 0 6px;
+            height: 36px;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}

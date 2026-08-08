@@ -1,18 +1,107 @@
+@use '../../styles/index.scss' as *;
+
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding: 30px 0;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 2px solid $color-border;
+  &-inner {
+    width: $width-page-pc;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 30px 0;
+    @include mq() {
+      width: auto;
+      margin: 0 $width-side-sp;
+      padding: 10px 0;
+    }
+  }
   &-title {
+    color: $color-primary;
     font-size: 48px;
-    padding: 0;
+    font-family: $font-en;
+    letter-spacing: 0.05em;
+    padding-right: 66px;
     margin: 0;
+    position :relative;
+    strong {
+      font-size: 60px;
+      margin: 0 0.3em;
+    }
+    a {
+      display: flex;
+      align-items: baseline;
+      color: $color-primary;
+      text-decoration: none;
+      &:hover {
+        text-decoration: none;
+        opacity: 0.8;
+      }
+    }
+    &-wheat {
+      position: absolute;
+      top: -20px;
+      right: 0;
+      display: block;
+      width: 100px;
+      height: 100px;
+    }
+    @include mq() {
+      font-size: 24px;
+      padding-right: 44px;
+      top: -3px;
+      strong {
+        font-size: 40px;
+        margin: 0 0.2em;
+      }
+      &-wheat {
+        width: 60px;
+        height: 60px;
+        top: -15px;
+        right: 0;
+      }
+    }
   }
   &-nav {
-    button {
-      height: 30px;
-      margin-left: 15px;
+    &-list {
+      display: flex;
+      padding: 0;
+      margin: 0;
+      &-item {
+        margin-left: 30px;
+        a {
+          display: flex;
+          align-items: center;
+          color: $color-primary;
+          text-decoration: none;
+          font-size: 16px;
+          .icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 3px;
+            fill: $color-primary;
+          }
+        }
+      }
+    }
+    @include mq() {
+      &-list {
+        margin: 0;
+        &-item {
+          margin-left: 10px;
+          a {
+            flex-direction: column;
+            justify-content: center;
+            font-size: 10px;
+            .icon {
+              width: 36px;
+              height: 36px;
+              margin-right: 3px;
+              position: relative;
+              top: 3px;
+            }
+          }
+        }
+      }
     }
   }
 }

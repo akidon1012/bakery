@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+@use "../global" as *;
+
+@forward "common";
+@forward "header";
+@forward "footer";
+@forward "sidemenu";
+@forward "sidebar";
+@forward "item_list";
+@forward "staff_start";

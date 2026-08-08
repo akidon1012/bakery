@@ -1,0 +1,76 @@
+@use '../../styles/index.scss' as *;
+
+.item-list-item {
+  &-img {
+    position: relative;
+    margin-bottom: 5px;
+  }
+  &-soldout {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    text-align: center;
+    background: rgba(255,255,255,0.5);
+    @include mq() {
+      font-size: 30px;
+    }
+  }
+  &-favorite {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #FFF;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .icon {
+        width: 24px;
+        height: 24px;
+        fill: #c0c0c0;
+      }
+      &.is_active {
+        .icon {
+          fill: $color-red;
+        }
+      }
+    }
+  }
+  &-name {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+  &-price {
+    text-align: right;
+    .price-value, .price-unit {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .tax-label {
+      font-size: 12px;
+    }
+  }
+  @include mq() {
+    &-name {
+      font-size: 14px;
+    }
+    &-price {
+      .price-value, .price-unit {
+        font-size: 15px;
+      }
+      .tax-label {
+        font-size: 11px;
+      }
+    }
+  }
+}

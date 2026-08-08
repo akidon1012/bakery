@@ -1,15 +1,29 @@
-type Props = {
-  setPage: (page: 'top' | 'list' | 'detail') => void
-}
+import './Header.scss';
+import { Link } from 'react-router-dom'
+import wheat from '../../assets/images/wheat.webp'
+import { CartIcon } from '../icons'
+import { HeartIcon } from '../icons'
 
-export default function Header({ setPage }: Props) {
+export default function Header() {
   return (
-    <header className="header">
-      <h1 className="header-title">React Practice</h1>
-      <div className="header-nav">
-        <button onClick={() => setPage('top')}>TOP</button>
-        <button onClick={() => setPage('list')}>商品一覧</button>
-      </div>
-    </header>
+    <div>
+      <header className="header">
+        <div className="header-inner">
+          <h1 className="header-title">
+            <Link to="/">Bakery <strong>MUGI</strong><img src={wheat} className="header-title-wheat" decoding="async" loading="lazy" alt="" /></Link>
+          </h1>
+          <nav className="header-nav">
+            <ul className="header-nav-list">
+             <li className="header-nav-list-item">
+                <Link to="/favorites"><HeartIcon />お気に入り</Link>
+              </li>
+              <li className="header-nav-list-item">
+                <Link to="/cart"><CartIcon />買い物かご</Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+    </div>
   )
 }

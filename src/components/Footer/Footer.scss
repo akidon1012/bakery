@@ -1,0 +1,15 @@
+@use '../../styles/index.scss' as *;
+
+.footer {
+  color: #FFF;
+  background: $color-primary;
+  padding: 5px 0;
+  text-align: center;
+  &-inner {
+    width: $width-page-pc;
+    margin: 0 auto;
+    @include mq() {
+      width: auto;
+    }
+  }
+}

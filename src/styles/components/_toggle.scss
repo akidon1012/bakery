@@ -1,0 +1,124 @@
+@charset "UTF-8";
+
+@use "../global" as *;
+
+.toggle {
+  &-trigger {
+    display: block;
+    position: relative;
+    // padding: 5px 40px 5px 0;
+    line-height: 1.4;
+    &::before, &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: .3s;
+    }
+    &::before, &::after {
+      right: 15px;
+      width: 12px;
+      height: 0;
+      border: none;
+      border-top: 1px solid $color-text;
+    }
+    &::after {
+      transform: rotate(-90deg);
+    }
+    &.is_toggle-opened {
+      &::after {
+        transform: rotate(0);
+      }
+    }
+  }
+  @include mq() {
+    &-trigger {
+      &::before, &::after {
+        right: 8px;
+      }
+    }
+  }
+}
+.js_toggle {
+  &-trigger {
+    position: relative;
+    // padding-right: 40px;
+    &.is_toggle-sp {
+      pointer-events: none;
+      cursor: text;
+      &::before, &::after {
+        display: none;
+      }
+    }
+  }
+  &-content {
+    display: none;
+    &.is_toggle-sp {
+      display: block;
+    }
+    &.is_toggle-opened {
+      display: block;
+    }
+  }
+  @include mq() {
+    &-trigger {
+      &.is_toggle-pc {
+        pointer-events: none;
+        cursor: text;
+        &::before, &::after {
+          display: none;
+        }
+      }
+      &.is_toggle-sp {
+        pointer-events: auto;
+        cursor: default;
+        &::before, &::after {
+          display: block;
+        }
+      }
+    }
+    &-content {
+      &.is_toggle-pc {
+        display: block;
+      }
+      &.is_toggle-sp {
+        display: none;
+      }
+    }
+  }
+}
+.js_more {
+  &-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+  &-trigger {
+    .is_opened & {
+      display: none;
+    }
+    a {
+      display: inline-block;
+      padding-right: 15px;
+      position: relative;
+    }
+  }
+}
+.js_list-more {
+  &-wrapper {
+    .btn-close {
+      display: none;
+    }
+    &.is_opened {
+      .btn-open {
+        display: none;
+      }
+      .btn-close {
+        display: inline-flex;
+      }
+    }
+  }
+  &-trigger {
+    text-align: center;
+  }
+}

@@ -1,0 +1,234 @@
+@use '../../styles/index.scss' as *;
+
+.cart {
+  width: $width-contents-narrow;
+  margin: 0 auto;
+  @include mq() {
+    width: auto;
+  }
+  &-list {
+    @include mq() {
+      border-top: 1px solid $color-border;
+      margin: 0 (-$width-side-sp);
+    }
+    &-header {
+      display: flex;
+      padding: 15px 0;
+      border-top: 1px solid $color-border;
+      border-bottom: 1px solid $color-border;
+      background: $color-th-bg;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      &-row1 {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+      &-row2 {
+        display: flex;
+        flex-shrink: 0;
+      }
+      &-price {
+        width: 120px;
+        flex-shrink: 0;
+      }
+      &-qty {
+        width: 100px;
+        flex-shrink: 0;
+      }
+      &-subtotal {
+        width: 160px;
+        padding-right: 40px;
+        flex-shrink: 0;
+      }
+      .tax-label {
+        font-size: 12px;
+        margin-left: 3px;
+      }
+    }
+    &-item {
+      display: flex;
+      align-items: center;
+      padding: 15px $width-side-sp;
+      border-bottom: 1px dashed $color-border;
+      background: #FFF;
+      font-size: 16px;
+      font-weight: 500;
+      &:last-child {
+        border-bottom: 1px solid $color-border;
+      }
+      &-row1 {
+        display: flex;
+        align-items: center;
+        width: 100%
+      }
+      &-row2 {
+        display: flex;
+        align-items: center;
+        text-align: center;
+      }
+      &-img {
+        padding-right: 15px;
+        flex-shrink: 0;
+        img {
+          width: 120px;
+        }
+      }
+      &-name {
+        font-weight: 500;
+      }
+      &-price , &-subtotal{
+        width: 120px;
+        padding: 0 15px;
+        &-value {
+          .price-unit, .price-value {
+            font-size: 18px;
+          }
+        }
+      }
+      &-qty {
+        width: 100px;
+        padding: 0 15px;
+      }
+      &-remove {
+        width: 40px;
+        text-align: center;
+        &-btn {
+          background: none;
+          border: none;
+          outline: none;
+          font-size: 12px;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+      @include mq() {
+        display: block;
+        font-size: 14px;
+        padding: 15px 10px;
+        position: relative;
+        &-row1 {
+          margin-bottom: 10px;
+        }
+        &-row2 {
+          justify-content: flex-end;
+        }
+        &-img {
+          padding: 0 15px 0 0;
+          img {
+            width: 90px;
+          }
+        }
+        &-price, &-subtotal {
+          width: auto;
+          padding: 0 0 0 15px;
+          &-dl {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+          }
+          &-label {
+            font-size: 12px;
+            &::after {
+              content: "：";
+              margin-right: 3px;
+            }
+          }
+          &-value {
+            .tax-label {
+              font-size: 11px;
+            }
+          }
+        }
+        &-qty {
+          width: auto;
+          padding: 0 0 0 15px;
+          position: relative;
+          top: 3px;
+          &-dl {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          &-label {
+            font-size: 12px;
+            &::after {
+              content: "：";
+              margin-right: 3px;
+            }
+          }
+          &-select {
+            .select-wrap {
+              &::after {
+                right: 6px;
+              }
+              select {
+                padding: 0 20px 0 5px;
+              }
+            }
+          }
+        }
+        &-remove {
+          position: absolute;
+          top: 15px;
+          right: 15px;
+          width: auto;
+          &-btn {
+            background: none;
+            border: none;
+            outline: none;
+            font-size: 12px;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+    &-total {
+      padding: 15px;
+      border-bottom: 1px solid $color-border;
+      background: #FFF;
+      &-dl {
+        display: flex;
+        justify-content: flex-end;
+        align-items: baseline;
+      }
+      &-label {
+        font-size: 18px;
+        &:after {
+          content: "：";
+          margin-right: 3px;
+        }
+      }
+      &-value {
+        font-weight: 600;
+        .price-unit, .price-value {
+          font-size: 20px;
+        }
+        .tax-label {
+          font-size: 14px;
+          margin-left: 3px;
+        }
+      }
+      @include mq() {
+        margin: 0 (-$width-side-sp);
+        padding: 10px $width-side-sp;
+        &-label {
+          font-size: 14px;
+        }
+        &-value {
+          .price-unit, .price-value {
+            font-size: 20px;
+          }
+          .tax-label {
+            font-size: 14px;
+            margin-left: 3px;
+          }
+        }
+      }
+    }
+  }
+}
