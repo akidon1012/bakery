@@ -43,7 +43,7 @@ export const products: Product[] = [
     category: 'deli',
     categoryLabel: '惣菜パン',
     price: 320,
-    stock: 8,
+    stock: 12,
     image: dli001,
     detailImages: [dli001_01],
     description: 'スパイス香る自家製カレーを包んだ人気のカレーパンです。',

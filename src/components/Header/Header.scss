@@ -1,4 +1,4 @@
-@use '../../styles/index.scss' as *;
+@use '../../styles/global/index.scss' as *;
 
 .header {
   border-bottom: 2px solid $color-border;
@@ -12,7 +12,7 @@
     @include mq() {
       width: auto;
       margin: 0 $width-side-sp;
-      padding: 10px 0;
+      padding: 5px 0;
     }
   }
   &-title {
@@ -46,17 +46,17 @@
       height: 100px;
     }
     @include mq() {
-      font-size: 24px;
-      padding-right: 44px;
+      font-size: 20px;
+      padding-right: 40px;
       top: -3px;
       strong {
-        font-size: 40px;
-        margin: 0 0.2em;
+        font-size: 32px;
+        margin: 0 0 0 3px;
       }
       &-wheat {
-        width: 60px;
-        height: 60px;
-        top: -15px;
+        width: 42px;
+        height: 42px;
+        top: -10px;
         right: 0;
       }
     }
@@ -68,18 +68,41 @@
       margin: 0;
       &-item {
         margin-left: 30px;
-        a {
+        a,
+        .header-nav-menu-button {
           display: flex;
           align-items: center;
           color: $color-primary;
           text-decoration: none;
           font-size: 16px;
+          position: relative;
+          background: none;
+          border: none;
+          padding: 0;
+          cursor: pointer;
+          font-family: inherit;
           .icon {
             width: 30px;
             height: 30px;
             margin-right: 3px;
             fill: $color-primary;
           }
+        }
+        &-cnt {
+          position: absolute;
+          top: -8px;
+          left: 24px;
+          width: 18px;
+          height: 18px;
+          color: #FFF;
+          background: $color-red;
+          font-size: 12px;
+          font-weight: 600;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-bottom: 2px;
         }
       }
     }
@@ -88,19 +111,67 @@
         margin: 0;
         &-item {
           margin-left: 10px;
-          a {
+          a,
+          .header-nav-menu-button {
             flex-direction: column;
             justify-content: center;
-            font-size: 10px;
+            font-size: 8px;
             .icon {
-              width: 36px;
-              height: 36px;
+              width: 32px;
+              height: 32px;
               margin-right: 3px;
               position: relative;
               top: 3px;
             }
           }
+          &-cnt {
+            top: -3px;
+            left: 36px
+          }
         }
+      }
+    }
+  }
+  &-category {
+    &-list {
+      display: flex;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
+      color: #FFF;
+      &-item {
+        a {
+          display: block;
+          color: #FFF;
+          text-decoration: none;
+          font-size: 16px;
+          font-weight: 600;
+          padding: 10px 20px;
+        }
+      }
+    }
+  }
+  &-search {
+    display: flex;
+    align-items: center;
+    input[type='text'] {
+      width: 240px;
+      height: 40px;
+      padding: 0 12px;
+      border: 1px solid $color-border;
+      border-radius: 5px;
+      background: #FFF;
+    }
+    &-clear {
+      margin-left: 10px;
+      background: none;
+      border: none;
+      color: #FFF;
+      font-size: 14px;
+      cursor: pointer;
+      white-space: nowrap;
+      &:hover {
+        opacity: 0.8;
       }
     }
   }

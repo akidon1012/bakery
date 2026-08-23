@@ -1,0 +1,41 @@
+@use '../../styles/index.scss' as *;
+
+
+.top-mv {
+  position: relative;
+  overflow: visible;
+  width: 100%;
+  padding: 0 12px;
+  box-sizing: border-box;
+  @include mq() {
+    padding: 0;
+  }
+
+  &-list {
+    &.swiper {
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      overflow: visible;
+    }
+
+    &-item {
+      height: auto;
+
+      &-link {
+        display: block;
+      }
+
+      picture,
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+
+  .swiper-prev, .swiper-next {
+    background: $color-primary;
+  }
+}

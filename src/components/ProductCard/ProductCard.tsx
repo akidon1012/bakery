@@ -1,10 +1,15 @@
 import './ProductCard.scss';
 import type { Product } from '../../types/Product'
+import type { CartItem } from '../../types/CartItem'
+import { addToCartItems } from '../../utils/cart'
 import { HeartIcon } from '../icons'
+import { CartIcon } from '../icons'
 
 type Props = {
   product: Product
   onClick: (product: Product) => void
+  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>
+  onOpenCartModal: () => void
   favorites: string[]
   setFavorites: React.Dispatch<React.SetStateAction<string[]>>
 }
@@ -12,10 +17,16 @@ type Props = {
 export default function ProductCard({
   product,
   onClick,
+  setCartItems,
+  onOpenCartModal,
   favorites,
   setFavorites,
 }: Props) {
   const isSoldOut = product.stock === 0
+  const handleAddCart = () => {
+    setCartItems((prev) => addToCartItems(prev, product.id, 1, product.stock))
+    onOpenCartModal()
+  }
   const isFavorite = favorites.includes(product.id)
   const handleToggle = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -67,7 +78,22 @@ export default function ProductCard({
         <span className="price-value">{product.price.toLocaleString()}</span>
         <span className="tax-label">(税込)</span>
       </div>
-      <p></p>
+      <div className="item-list-item-btn">
+        <button
+          className={`btn btn-primary btn-size-s ${isSoldOut ? 'is_soldout' : ''}`}
+          disabled={isSoldOut}
+          onClick={handleAddCart}
+        >
+          {isSoldOut ? (
+            'SOLD OUT'
+          ) : (
+            <>
+              <CartIcon />
+              買い物かごに入れる
+            </>
+          )}
+        </button>
+     </div>
     </li>
   )
 }

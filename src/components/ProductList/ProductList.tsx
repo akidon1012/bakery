@@ -1,10 +1,13 @@
 import './ProductList.scss';
 import type { Product } from '../../types/Product'
+import type { CartItem } from '../../types/CartItem'
 import ProductCard from '../ProductCard/ProductCard'
 
 type Props = {
   products: Product[]
   onItemClick: (product: Product) => void
+  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>
+  onOpenCartModal: () => void
   favorites: string[]
   setFavorites: React.Dispatch<React.SetStateAction<string[]>>
 }
@@ -12,6 +15,8 @@ type Props = {
 export default function ProductList({
   products,
   onItemClick,
+  setCartItems,
+  onOpenCartModal,
   favorites,
   setFavorites,
 }: Props) {
@@ -22,6 +27,8 @@ export default function ProductList({
           key={product.id}
           product={product}
           onClick={onItemClick}
+          setCartItems={setCartItems}
+          onOpenCartModal={onOpenCartModal}
           favorites={favorites}
           setFavorites={setFavorites}
         />

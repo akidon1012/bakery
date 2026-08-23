@@ -91,45 +91,6 @@ input {
       }
     }
   }
-  &-cart {
-    color: #FFF;
-    background: $color-btn-cart;
-    .icon {
-      fill: #FFF;
-      margin-right: 5px;
-    }
-    &.is_soldout {
-      color: $color-text-disabled;
-      background: $color-btn-disabled;
-      cursor: default;
-      .icon {
-        fill: $color-text-disabled;
-      }
-    }
-    &:hover {
-      background-color: #000;
-    }
-    &-sub {
-      color: $color-btn-cart;
-      border: 1px solid $color-btn-cart;
-      background-color: transparent;
-      .icon {
-        fill: $color-btn-cart;
-      }
-      &.js_toggle-trigger {
-        &::before, &::after {
-          background-color: $color-btn-cart;
-        }
-      }
-      &:hover {
-        color: #FFF;
-        background-color: $color-btn-cart;
-        .icon {
-          fill: #FFF;
-        }
-      }
-    }
-  }
   &-favorite {
     display: none;
     color: $color-text-favorite;
@@ -151,19 +112,6 @@ input {
     .icon {
       fill: $color-text-disabled;
     }
-  }
-  &-estimate{
-    color: #FFF;
-    background: $color-btn-estimate;
-    .icon {
-      fill: #FFF;
-    }
-    &:hover {
-      opacity: .8;
-    }
-  }
-  &-hidden {
-    display: none;
   }
   &-size-l {
     font-size: 16px;
@@ -207,9 +155,9 @@ input {
       }
     }
     .icon {
-      width: 16px;
-      height: 16px;
-      margin-right: 5px;
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
     }
     @media all and (-ms-high-contrast: none) { //ie
       // padding-top: 4px;
@@ -229,14 +177,15 @@ input {
   &-size-m {
     font-size: 16px;
     font-weight: 600;
-    height: 56px;
-    line-height: 56px;
-    border-radius: 5px;
+    height: 48px;
+    line-height: 48px;
+    border-radius: 4px;
     padding: 0 15px;
+    min-width: 180px;
     .icon {
-      width: 16px;
-      height: 16px;
-      margin-right: 5px;
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
     }
     @media all and (-ms-high-contrast: none) { //ie
       // padding-top: 4px;
@@ -258,8 +207,8 @@ input {
       }
     }
     .icon {
-      width: 13px;
-      height: 13px;
+      width: 18px;
+      height: 18px;
       margin-right: 5px;
     }
   }
@@ -399,7 +348,7 @@ a.btn, span.btn {
 }
 
 .btns {
-  margin: 0 0 30px;
+  margin: 40px 0 30px;
   display: flex;
   justify-content: center;
   text-align: center;

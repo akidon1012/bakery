@@ -1,4 +1,4 @@
-@use '../../styles/index.scss' as *;
+@use '../../styles/global/index.scss' as *;
 
 .item-list-item {
   &-img {
@@ -58,6 +58,15 @@
     }
     .tax-label {
       font-size: 12px;
+    }
+  }
+  &-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    .btn {
+      width: calc(100% - 24px);
+      margin: 0 auto;
     }
   }
   @include mq() {

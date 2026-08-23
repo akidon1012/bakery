@@ -3,20 +3,21 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Navigate,
   useNavigate,
   useParams
 } from 'react-router-dom'
 import './App.scss'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
-// import Top from './pages/Top/Top'
+import AddCartModal from './components/AddCartModal/AddCartModal'
+import Top from './pages/Top/Top'
 import List from './pages/List/List'
 import Detail from './pages/Detail/Detail'
 import Cart from './pages/Cart/Cart'
 import { products } from './data/products'
 import type { Product } from './types/Product'
 import type { CartItem } from './types/CartItem'
+import { mergeCartItems } from './utils/cart'
 
 function AppContent() {
   const navigate = useNavigate()
@@ -39,13 +40,25 @@ function AppContent() {
 
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const saved = localStorage.getItem('cartItems')
-    return saved ? JSON.parse(saved) : []
+    const parsed: CartItem[] = saved ? JSON.parse(saved) : []
+    return mergeCartItems(parsed)
   })
 
   useEffect(() => {
     localStorage.setItem('cartItems', JSON.stringify(cartItems))
   }, [cartItems])
 
+  const [cartError, setCartError] = useState<string | null>(null)
+
+  const [isCartModalOpen, setIsCartModalOpen] = useState(false)
+
+  const handleOpenCartModal = () => {
+    setIsCartModalOpen(true)
+  }
+
+  const handleCloseCartModal = () => {
+    setIsCartModalOpen(false)
+  }
   function DetailRoute() {
     const { id } = useParams()
     const product = products.find((item) => item.id === id)
@@ -59,48 +72,59 @@ function AppContent() {
         product={product}
         onBack={() => navigate('/products')}
         setCartItems={setCartItems}
+        onOpenCartModal={handleOpenCartModal}
+        setCartError={setCartError}
       />
     )
   }
   return (
     <div className="container">
-      <Header />
-      <main className="contents">
-        <Routes>
-          <Route path="/" element={<Navigate to="/products" replace />} />
+      <Header
+        cartItems={cartItems}
+        query={query}
+        setQuery={setQuery}
+      />
+      <Routes>
+        <Route path="/" element={<Top />} />
 
-          <Route
-            path="/products"
-            element={
-              <List
-                onSelectProduct={handleSelectProduct}
-                query={query}
-                setQuery={setQuery}
-                category={category}
-                setCategory={setCategory}
-                favorites={favorites}
-                setFavorites={setFavorites}
-              />
-            }
-          />
+        <Route
+          path="/products"
+          element={
+            <List
+              onSelectProduct={handleSelectProduct}
+              setCartItems={setCartItems}
+              onOpenCartModal={handleOpenCartModal}
+              query={query}
+              setQuery={setQuery}
+              category={category}
+              setCategory={setCategory}
+              favorites={favorites}
+              setFavorites={setFavorites}
+            />
+          }
+        />
 
-          <Route
-            path="/products/:id" 
-            element={<DetailRoute />} 
-          />
+        <Route
+          path="/products/:id" 
+          element={<DetailRoute />} 
+        />
 
-          <Route
-            path="/cart"
-            element={
-              <Cart
-                cartItems={cartItems}
-                setCartItems={setCartItems}
-              />
-            }
-          />
-        </Routes>
-      </main>
+        <Route
+          path="/cart"
+          element={
+            <Cart
+              cartItems={cartItems}
+              setCartItems={setCartItems}
+            />
+          }
+        />
+      </Routes>
       <Footer />
+      <AddCartModal
+        isOpen={isCartModalOpen}
+        onClose={handleCloseCartModal}
+      />
+
     </div>
   )
 }
