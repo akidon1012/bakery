@@ -108,14 +108,14 @@ export default function Top() {
         />
         <div ref={paginationRef} className="swiper-dots" />
       </section>
-      <main className="contents">
+      <div className="contents">
         <section className="top-recommend">
 
         </section>
         <section className="top-category">
           <ul className="top-category-list"></ul>
         </section>
-      </main>
+      </div>
     </div>
   )
 }

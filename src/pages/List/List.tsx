@@ -1,3 +1,4 @@
+import { useSearchParams } from 'react-router-dom'
 import './List.scss';
 import ProductList from '../../components/ProductList/ProductList'
 import { products } from '../../data/products'
@@ -9,73 +10,60 @@ type Props = {
   onSelectProduct: (product: Product) => void
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>
   onOpenCartModal: () => void
-  query: string
-  setQuery: (value: string) => void
-  category: string
-  setCategory: (value: string) => void
   favorites: string[]
   setFavorites: React.Dispatch<React.SetStateAction<string[]>>
+}
+
+function buildSearchParams(categoryCode: string, searchQuery: string) {
+  const params = new URLSearchParams()
+
+  if (categoryCode !== 'ALL') {
+    params.set('category', categoryCode)
+  }
+
+  if (searchQuery.trim()) {
+    params.set('q', searchQuery.trim())
+  }
+
+  return params
 }
 
 export default function List({
   onSelectProduct,
   setCartItems,
   onOpenCartModal,
-  query,
-  setQuery,
-  category,
-  setCategory,
   favorites,
   setFavorites,
 }: Props) {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const categoryCode = searchParams.get('category') ?? 'ALL'
+  const searchQuery = searchParams.get('q') ?? ''
+  const selectedCategory = categories.find(
+    (category) => category.code === categoryCode
+  )
+
   const filteredProducts = products.filter((product) => {
-    const matchQuery = product.name.includes(query)
+    const matchQuery = product.name.includes(searchQuery)
     const matchCategory =
-      category === 'all' || product.category === category
+      categoryCode === 'ALL' ||
+      (selectedCategory !== undefined &&
+        product.category === selectedCategory.value)
     return matchQuery && matchCategory
   })
 
+  const pageTitle = searchQuery.trim()
+    ? `「${searchQuery}」の検索結果`
+    : categoryCode === 'ALL'
+      ? 'すべての商品'
+      : selectedCategory?.label
+
   return (
     <>
-    {/* <h1 className="page-header">商品一覧</h1> */}
-    <main className="contents">
-      <section className="item-list-filter">
-        <div className="item-list-search">
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="商品名で検索"
-          />
-          <button className="item-list-search-clear" onClick={() => setQuery('')}>
-            クリア
-          </button>
-        </div>
-        <div className="item-list-category">
-          <ul className="item-list-category-list">
-            {categories.map((cat) => {
-              const isActive = category === cat.value
-              return (
-                <li
-                  key={cat.value}
-                  className={`item-list-category-list-item ${
-                    isActive ? 'is_active' : ''
-                  }`}
-                >
-                  <button onClick={() => setCategory(cat.value)}>
-                    {cat.label}
-                  </button>
-                </li>
-              )
-            })}
-          </ul>
-        </div>
-      </section>
+    <div className="contents">
+      <h1 className="page-header">
+        {pageTitle}
+      </h1>
       <section className="item-list-wrapper">
-        
-        <div className="category-filter">
-
-        </div>
         <ProductList
           products={filteredProducts}
           onItemClick={onSelectProduct}
@@ -85,7 +73,7 @@ export default function List({
           setFavorites={setFavorites}
         />
       </section>
-    </main>
+    </div>
   </>
   )
 }

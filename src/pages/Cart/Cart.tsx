@@ -24,14 +24,12 @@ export default function Cart({
   }, 0)
 
   return (
-    <main className="contents">
+    <div className="contents">
       <div className="cart">
-        <div className="cart-header">
-          <h1 className="page-header">買い物かご</h1>
-        </div>
+        <h1 className="page-header">買い物かご</h1>
         {cartItems.length === 0 ? (
-          <p className="cart-empty">
-            買い物かごには商品が入っていません
+          <p className="p">
+            買い物かごには商品が入っていません。
           </p>
         ) : (
           <div className="cart-wrapper">
@@ -154,6 +152,6 @@ export default function Cart({
           </div>
         )}
       </div>
-    </main>
+    </div>
   )
 }

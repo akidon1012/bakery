@@ -45,7 +45,7 @@ export default function Detail({
     }
   }
   return (
-    <main className="contents">
+    <div className="contents">
       <section className="detail-wrapper">
         <div className="detail-header show-sp">
           <h1 className="detail-product-name">{product.name}</h1>
@@ -116,6 +116,6 @@ export default function Detail({
           </button>
         </div>
       </section>
-    </main>
+    </div>
   )
 }

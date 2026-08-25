@@ -1,0 +1,14 @@
+@use '../../styles/index.scss' as *;
+
+.favorites {
+  width: $width-contents-narrow;
+  margin: 0 auto;
+  @include mq() {
+    width: auto;
+  }
+
+  &-empty {
+    font-size: 16px;
+    text-align: center;
+  }
+}

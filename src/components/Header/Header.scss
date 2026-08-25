@@ -1,7 +1,15 @@
 @use '../../styles/global/index.scss' as *;
 
 .header {
-  border-bottom: 2px solid $color-border;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: #FFF;
+  @include mq() {
+    border-bottom: 2px solid $color-border;
+  }
   &-inner {
     width: $width-page-pc;
     margin: 0 auto;
@@ -133,10 +141,13 @@
     }
   }
   &-category {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    background: $color-primary;
     &-list {
       display: flex;
       justify-content: center;
-      padding: 0;
       margin: 0;
       color: #FFF;
       &-item {
@@ -147,6 +158,11 @@
           font-size: 16px;
           font-weight: 600;
           padding: 10px 20px;
+          height: 100%;
+          &:hover {
+            text-decoration: none;
+            background: $color-secondary;
+          }
         }
       }
     }
@@ -154,6 +170,27 @@
   &-search {
     display: flex;
     align-items: center;
+    padding: 5px 0;
+    margin-left: 30px;
+    position: relative;
+    &-button {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-left: 10px;
+      background: none;
+      border: none;
+      width: 40px;
+      height: 40px;
+      font-size: 14px;
+      cursor: pointer;
+      .icon {
+        width: 30px;
+        height: 30px;
+        margin-right: 3px;
+      }
+    }
     input[type='text'] {
       width: 240px;
       height: 40px;
@@ -163,6 +200,7 @@
       background: #FFF;
     }
     &-clear {
+      display: none;
       margin-left: 10px;
       background: none;
       border: none;
@@ -175,4 +213,48 @@
       }
     }
   }
+}
+
+.is_scrolled {
+  .header {
+    &-inner {
+      padding: 10px 0;
+      @include mq() {
+        width: auto;
+        margin: 0 $width-side-sp;
+        padding: 5px 0;
+      }
+    }
+    &-title {
+      font-size: 32px;
+      padding-right: 54px;
+      strong {
+        font-size: 48px;
+        margin: 0 0.3em;
+      }
+      &-wheat {
+        position: absolute;
+        top: -16px;
+        right: 0;
+        display: block;
+        width: 72px;
+        height: 72px;
+      }
+      @include mq() {
+        font-size: 20px;
+        padding-right: 40px;
+        top: -3px;
+        strong {
+          font-size: 32px;
+          margin: 0 0 0 3px;
+        }
+        &-wheat {
+          width: 42px;
+          height: 42px;
+          top: -10px;
+          right: 0;
+        }
+      }
+    }
+    }
 }

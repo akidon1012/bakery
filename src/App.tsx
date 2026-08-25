@@ -4,26 +4,36 @@ import {
   Routes,
   Route,
   useNavigate,
-  useParams
+  useParams,
+  useLocation
 } from 'react-router-dom'
 import './App.scss'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
+import SideMenu from './components/SideMenu/SideMenu'
 import AddCartModal from './components/AddCartModal/AddCartModal'
 import Top from './pages/Top/Top'
 import List from './pages/List/List'
 import Detail from './pages/Detail/Detail'
 import Cart from './pages/Cart/Cart'
+import Favorites from './pages/Favorites/Favorites'
 import { products } from './data/products'
 import type { Product } from './types/Product'
 import type { CartItem } from './types/CartItem'
 import { mergeCartItems } from './utils/cart'
 
+function ScrollToTop() {
+  const { pathname, search } = useLocation()
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+  }, [pathname, search])
+
+  return null
+}
+
 function AppContent() {
   const navigate = useNavigate()
-
-  const [query, setQuery] = useState('')
-  const [category, setCategory] = useState<string>('all')
 
   const handleSelectProduct = (product: Product) => {
     navigate(`/products/${product.id}`)
@@ -51,6 +61,7 @@ function AppContent() {
   const [cartError, setCartError] = useState<string | null>(null)
 
   const [isCartModalOpen, setIsCartModalOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const handleOpenCartModal = () => {
     setIsCartModalOpen(true)
@@ -79,46 +90,61 @@ function AppContent() {
   }
   return (
     <div className="container">
+      <ScrollToTop />
       <Header
         cartItems={cartItems}
-        query={query}
-        setQuery={setQuery}
+        isMenuOpen={isMenuOpen}
+        setIsMenuOpen={setIsMenuOpen}
       />
-      <Routes>
-        <Route path="/" element={<Top />} />
+      <SideMenu
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+      />
+      <main className="main">
+        <Routes>
+          <Route path="/" element={<Top />} />
 
-        <Route
-          path="/products"
-          element={
-            <List
-              onSelectProduct={handleSelectProduct}
-              setCartItems={setCartItems}
-              onOpenCartModal={handleOpenCartModal}
-              query={query}
-              setQuery={setQuery}
-              category={category}
-              setCategory={setCategory}
-              favorites={favorites}
-              setFavorites={setFavorites}
-            />
-          }
-        />
+          <Route
+            path="/products"
+            element={
+              <List
+                onSelectProduct={handleSelectProduct}
+                setCartItems={setCartItems}
+                onOpenCartModal={handleOpenCartModal}
+                favorites={favorites}
+                setFavorites={setFavorites}
+              />
+            }
+          />
 
-        <Route
-          path="/products/:id" 
-          element={<DetailRoute />} 
-        />
+          <Route
+            path="/products/:id" 
+            element={<DetailRoute />} 
+          />
 
-        <Route
-          path="/cart"
-          element={
-            <Cart
-              cartItems={cartItems}
-              setCartItems={setCartItems}
-            />
-          }
-        />
-      </Routes>
+          <Route
+            path="/cart"
+            element={
+              <Cart
+                cartItems={cartItems}
+                setCartItems={setCartItems}
+              />
+            }
+          />
+          <Route
+            path="/favorites"
+            element={
+              <Favorites
+                onSelectProduct={handleSelectProduct}
+                setCartItems={setCartItems}
+                onOpenCartModal={handleOpenCartModal}
+                favorites={favorites}
+                setFavorites={setFavorites}
+              />
+            }
+          />
+        </Routes>
+      </main>
       <Footer />
       <AddCartModal
         isOpen={isCartModalOpen}

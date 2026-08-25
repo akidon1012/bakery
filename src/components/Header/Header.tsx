@@ -1,21 +1,68 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import type { FormEvent } from 'react'
 import './Header.scss';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import wheat from '../../assets/images/wheat.webp'
-import { CartIcon, CloseIcon, HeartIcon, MenuIcon } from '../icons'
+import { CartIcon, CloseIcon, HeartIcon, MenuIcon, SearchIcon } from '../icons'
 import type { CartItem } from '../../types/CartItem'
 import { categories } from '../../data/categories'
 
 type Props = {
   cartItems: CartItem[]
-  query: string
-  setQuery: (value: string) => void
+  isMenuOpen: boolean
+  setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function Header({ cartItems, query, setQuery }: Props) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const cartCount = cartItems.reduce(
-    (sum, item) => sum + item.quantity,
+export default function Header({ cartItems, isMenuOpen, setIsMenuOpen }: Props) {
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const [searchInput, setSearchInput] = useState(
+    () => searchParams.get('q') ?? ''
+  )
+
+  useEffect(() => {
+    setSearchInput(searchParams.get('q') ?? '')
+  }, [searchParams])
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const headerHeight =
+        document.querySelector('.header')?.clientHeight ?? 0
+  
+      if (window.scrollY >= headerHeight) {
+        document.body.classList.add('is_scrolled')
+      } else {
+        document.body.classList.remove('is_scrolled')
+      }
+    }
+  
+    window.addEventListener('scroll', handleScroll)
+    handleScroll()
+  
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      document.body.classList.remove('is_scrolled')
+    }
+  }, [])
+
+  const handleSearch = () => {
+    const q = searchInput.trim()
+    const params = new URLSearchParams()
+
+    if (q) {
+      params.set('q', q)
+    }
+
+    const queryString = params.toString()
+    navigate(queryString ? `/products?${queryString}` : '/products')
+  }
+
+  const handleSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    handleSearch()
+  }
+
+  const cartCount = cartItems.reduce(    (sum, item) => sum + item.quantity,
     0
   )
   return (
@@ -51,42 +98,60 @@ export default function Header({ cartItems, query, setQuery }: Props) {
             </ul>
           </nav>
         </div>
+        <nav className="header-category show-pc">
+          <ul className="header-category-list">
+            <li className="header-category-list-item">
+              <Link to="/products?category=ALL">すべての商品</Link>
+            </li>
+            {categories
+              .filter((category) => category.code !== 'ALL')
+              .map((category) => (
+                <li
+                  key={category.code}
+                  className="header-category-list-item"
+                >
+                  <Link to={`/products?category=${category.code}`}>
+                    {category.label}
+                  </Link>
+                </li>
+              ))}
+          </ul>
+          <form className="header-search" onSubmit={handleSearchSubmit}>
+            <input
+              name="search"
+              type="text"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              placeholder="商品名で検索"
+            />
+            <button
+              type="submit"
+              className="header-search-button"
+              aria-label="検索"
+            >
+              <SearchIcon />
+            </button>
+            <button
+              type="button"
+              className="header-search-clear"
+              onClick={() => {
+                setSearchInput('')
+                const params = new URLSearchParams()
+                const category = searchParams.get('category')
+
+                if (category) {
+                  params.set('category', category)
+                }
+
+                const queryString = params.toString()
+                navigate(queryString ? `/products?${queryString}` : '/products')
+              }}
+            >
+              クリア
+            </button>
+          </form>
+        </nav>
       </header>
-      <nav className="header-category show-pc">
-        <ul className="header-category-list">
-          <li className="header-category-list-item">
-            <Link to="/products?category=ALL">すべての商品</Link>
-          </li>
-          {categories
-            .filter((category) => category.code !== 'ALL')
-            .map((category) => (
-              <li
-                key={category.code}
-                className="header-category-list-item"
-              >
-                <Link to={`/products?category=${category.code}`}>
-                  {category.label}
-                </Link>
-              </li>
-            ))}
-        </ul>
-        <div className="header-search">
-          <input
-            name="search"
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="商品名で検索"
-          />
-          <button
-            type="button"
-            className="header-search-clear"
-            onClick={() => setQuery('')}
-          >
-            クリア
-          </button>
-        </div>
-      </nav>
-    </div>
+     </div>
   )
 }

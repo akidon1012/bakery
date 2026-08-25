@@ -16,7 +16,8 @@
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    max-width: 600px;
+    width: 600px;
+    height: 200px;
     max-height: 80vh;
     overflow-y: auto;
     text-align: center;
@@ -37,9 +38,10 @@
     }
   }
   @include mq() {
-    width: calc(100% - 30px);
-    max-width: 100%;
     &-inner {
+      width: calc(100vw - $width-side-sp * 2);
+      max-width: 100%;
+      height: 160px;
       padding: 15px;
       border-radius: 5px;
      }
