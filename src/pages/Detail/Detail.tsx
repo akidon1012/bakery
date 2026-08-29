@@ -1,17 +1,19 @@
 import { useState } from 'react'
-import './Detail.scss';
+import './Detail.scss'
 import type { Product } from '../../types/Product'
 import type { CartItem } from '../../types/CartItem'
 import { addToCartItems } from '../../utils/cart'
 import Select from '../../components/ui/Select/Select'
 import { CartIcon } from '../../components/icons'
+import FavoriteButton from '../../components/FavoriteButton/FavoriteButton'
 
 type Props = {
   product: Product
   onBack: () => void
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>
   onOpenCartModal: () => void
-  setCartError: React.Dispatch<React.SetStateAction<string | null>>
+  favorites: string[]
+  setFavorites: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 export default function Detail({
@@ -19,15 +21,11 @@ export default function Detail({
   onBack,
   setCartItems,
   onOpenCartModal,
-  setCartError,
-}: Props) {
-  const [quantity, setQuantity] = useState('1')
+  favorites,
+  setFavorites,
+}: Props) {  const [quantity, setQuantity] = useState('1')
   const isSoldOut = product.stock === 0
   const handleAddCart = () => {
-    if (!quantity) {
-      setCartError('数量を選択してください。')
-      return
-    }
     try {
       setCartItems((prev) =>
         addToCartItems(
@@ -38,12 +36,10 @@ export default function Detail({
         )
       )
 
-      setCartError(null)
       onOpenCartModal()
     } catch {
-      setCartError('カートへの追加に失敗しました。')
-    }
-  }
+      // カート追加失敗時はモーダルを開かない
+    }  }
   return (
     <div className="contents">
       <section className="detail-wrapper">
@@ -53,9 +49,16 @@ export default function Detail({
         </div>
         <div className="detail-inner">
           <div className="detail-img">
-            <img src={product.image} decoding="async" loading="lazy" alt="" />
-          </div>
-          <div className="detail-info">
+            <img src={product.image} decoding="async" loading="lazy" alt={product.name} />
+            <div className="detail-img-favorite">
+              <FavoriteButton
+                productId={product.id}
+                productName={product.name}
+                favorites={favorites}
+                setFavorites={setFavorites}
+              />
+            </div>
+          </div>          <div className="detail-info">
             <div className="detail-header show-pc">
               <h1 className="detail-product-name">{product.name}</h1>
               <p className="detail-product-id">{product.id}</p>

@@ -13,11 +13,18 @@ import mv02 from '../../assets/images/mv/mv02.webp'
 import mv02Sp from '../../assets/images/mv/mv02_sp.webp'
 import mv03 from '../../assets/images/mv/mv03.webp'
 import mv03Sp from '../../assets/images/mv/mv03_sp.webp'
+import mv04 from '../../assets/images/mv/mv04.webp'
+import mv04Sp from '../../assets/images/mv/mv04_sp.webp'
 
 const mvSlides = [
   { pc: mv01, sp: mv01Sp },
   { pc: mv02, sp: mv02Sp },
   { pc: mv03, sp: mv03Sp },
+  { pc: mv04, sp: mv04Sp },
+  { pc: mv01, sp: mv01Sp },
+  { pc: mv02, sp: mv02Sp },
+  { pc: mv03, sp: mv03Sp },
+  { pc: mv04, sp: mv04Sp },
 ]
 
 export default function Top() {
@@ -28,10 +35,24 @@ export default function Top() {
   return (
     <div>
       <section className="top-mv">
+      <button
+          type="button"
+          ref={prevRef}
+          className="swiper-prev"
+          aria-label="前のスライド"
+        />
+        <button
+          type="button"
+          ref={nextRef}
+          className="swiper-next"
+          aria-label="次のスライド"
+        />
+        <div ref={paginationRef} className="swiper-dots" />
         <Swiper
           className="top-mv-list swiper"
           modules={[Autoplay, Navigation, Pagination]}
           loop
+          maxBackfaceHiddenSlides={0}
           speed={800}
           slidesPerView={1}
           autoplay={{
@@ -70,23 +91,6 @@ export default function Top() {
                   <img
                     src={slide.pc}
                     decoding="async"
-                    loading={index === 0 ? 'eager' : 'lazy'}
-                    fetchPriority={index === 0 ? 'high' : undefined}
-                    alt=""
-                  />
-                </picture>
-              </Link>
-            </SwiperSlide>
-          ))}
-          {mvSlides.map((slide, index) => (
-            <SwiperSlide key={`mv-dup-${index}`} className="top-mv-list-item">
-              <Link to="/products" className="top-mv-list-item-link">
-                <picture>
-                  <source srcSet={slide.sp} media="(max-width: 768px)" />
-                  <img
-                    src={slide.pc}
-                    decoding="async"
-                    loading="lazy"
                     alt=""
                   />
                 </picture>
@@ -94,19 +98,6 @@ export default function Top() {
             </SwiperSlide>
           ))}
         </Swiper>
-        <button
-          type="button"
-          ref={prevRef}
-          className="swiper-prev"
-          aria-label="前のスライド"
-        />
-        <button
-          type="button"
-          ref={nextRef}
-          className="swiper-next"
-          aria-label="次のスライド"
-        />
-        <div ref={paginationRef} className="swiper-dots" />
       </section>
       <div className="contents">
         <section className="top-recommend">

@@ -1,11 +1,9 @@
 import './Favorites.scss'
 import ProductList from '../../components/ProductList/ProductList'
 import { products } from '../../data/products'
-import type { Product } from '../../types/Product'
 import type { CartItem } from '../../types/CartItem'
 
 type Props = {
-  onSelectProduct: (product: Product) => void
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>
   onOpenCartModal: () => void
   favorites: string[]
@@ -13,7 +11,6 @@ type Props = {
 }
 
 export default function Favorites({
-  onSelectProduct,
   setCartItems,
   onOpenCartModal,
   favorites,
@@ -33,7 +30,6 @@ export default function Favorites({
           <section className="item-list-wrapper">
             <ProductList
               products={favoriteProducts}
-              onItemClick={onSelectProduct}
               setCartItems={setCartItems}
               onOpenCartModal={onOpenCartModal}
               favorites={favorites}

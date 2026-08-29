@@ -1,13 +1,13 @@
-import './ProductCard.scss';
+import './ProductCard.scss'
 import type { Product } from '../../types/Product'
 import type { CartItem } from '../../types/CartItem'
 import { addToCartItems } from '../../utils/cart'
-import { HeartIcon } from '../icons'
 import { CartIcon } from '../icons'
+import { Link } from 'react-router-dom'
+import FavoriteButton from '../FavoriteButton/FavoriteButton'
 
 type Props = {
   product: Product
-  onClick: (product: Product) => void
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>
   onOpenCartModal: () => void
   favorites: string[]
@@ -16,62 +16,37 @@ type Props = {
 
 export default function ProductCard({
   product,
-  onClick,
   setCartItems,
   onOpenCartModal,
   favorites,
   setFavorites,
 }: Props) {
   const isSoldOut = product.stock === 0
+
   const handleAddCart = () => {
     setCartItems((prev) => addToCartItems(prev, product.id, 1, product.stock))
     onOpenCartModal()
   }
-  const isFavorite = favorites.includes(product.id)
-  const handleToggle = (e: React.MouseEvent) => {
-    e.stopPropagation()
-  
-    setFavorites((prev) => {
-      if (prev.includes(product.id)) {
-        return prev.filter((id) => id !== product.id)
-      } else {
-        return [...prev, product.id]
-      }
-    })
-  }
+
   return (
     <li className={`item-list-item ${isSoldOut ? 'is_soldout' : ''}`}>
       <div className="item-list-item-img">
-        <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault()
-              onClick(product)
-            }}
-          >
-          <img src={product.image} decoding="async" loading="lazy" alt="" />
+        <Link to={`/products/${product.id}`}>
+          <img src={product.image} decoding="async" loading="lazy" alt={product.name} />
           {isSoldOut && <div className="item-list-item-soldout">SOLD OUT</div>}
-        </a>
+        </Link>
         <div className="item-list-item-favorite">
-          <button 
-            aria-pressed={isFavorite} 
-            className={`favorite-button ${isFavorite ? 'is_active' : ''}`}
-            onClick={handleToggle}
-          >
-            <HeartIcon />
-          </button>
+          <FavoriteButton
+            productId={product.id}
+            productName={product.name}
+            favorites={favorites}
+            setFavorites={setFavorites}
+            onClick={(e) => e.stopPropagation()}
+          />
         </div>
       </div>
       <h2 className="item-list-item-name">
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault()
-            onClick(product)
-          }}
-        >
-          {product.name}
-        </a>
+        <Link to={`/products/${product.id}`}>{product.name}</Link>
       </h2>
       <div className="item-list-item-price">
         <span className="price-unit">&yen;</span>
@@ -93,7 +68,7 @@ export default function ProductCard({
             </>
           )}
         </button>
-     </div>
+      </div>
     </li>
   )
 }

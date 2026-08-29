@@ -5,7 +5,6 @@ import ProductCard from '../ProductCard/ProductCard'
 
 type Props = {
   products: Product[]
-  onItemClick: (product: Product) => void
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>
   onOpenCartModal: () => void
   favorites: string[]
@@ -14,7 +13,6 @@ type Props = {
 
 export default function ProductList({
   products,
-  onItemClick,
   setCartItems,
   onOpenCartModal,
   favorites,
@@ -26,7 +24,6 @@ export default function ProductList({
         <ProductCard
           key={product.id}
           product={product}
-          onClick={onItemClick}
           setCartItems={setCartItems}
           onOpenCartModal={onOpenCartModal}
           favorites={favorites}

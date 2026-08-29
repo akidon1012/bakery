@@ -25,25 +25,6 @@
     position: absolute;
     top: 5px;
     right: 5px;
-    button {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: #FFF;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .icon {
-        width: 24px;
-        height: 24px;
-        fill: #c0c0c0;
-      }
-      &.is_active {
-        .icon {
-          fill: $color-red;
-        }
-      }
-    }
   }
   &-name {
     font-size: 16px;

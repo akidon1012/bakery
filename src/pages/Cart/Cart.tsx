@@ -147,7 +147,7 @@ export default function Cart({
               </dl>
             </div>
             <div className="btns">
-              <Link to="/List" className="btn btn-primary btn-size-l">お買い物を続ける</Link>
+              <Link to="/products" className="btn btn-primary btn-size-l">お買い物を続ける</Link>
             </div>
           </div>
         )}

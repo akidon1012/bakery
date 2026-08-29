@@ -39,6 +39,19 @@
       margin-right: 0;
       margin-bottom: 10px;
     }
+    &-favorite {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      .favorite-button {
+        width: 60px;
+        height: 60px;
+        .icon {
+          width: 36px;
+          height: 36px;
+        }
+      }
+    }
     &-soldout {
       position: absolute;
       top: 0;

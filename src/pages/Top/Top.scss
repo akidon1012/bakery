@@ -32,6 +32,12 @@
         display: block;
         width: 100%;
         height: auto;
+        aspect-ratio: 1619 / 971;
+        object-fit: cover;
+        object-position: center;
+        @include mq() {
+          aspect-ratio: 1448 / 1086;
+        }
       }
     }
   }
@@ -39,4 +45,7 @@
   .swiper-prev, .swiper-next {
     background: $color-primary;
   }
+}
+.swiper-slide {
+  backface-visibility: visible !important;
 }

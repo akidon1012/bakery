@@ -18,7 +18,6 @@ import Detail from './pages/Detail/Detail'
 import Cart from './pages/Cart/Cart'
 import Favorites from './pages/Favorites/Favorites'
 import { products } from './data/products'
-import type { Product } from './types/Product'
 import type { CartItem } from './types/CartItem'
 import { mergeCartItems } from './utils/cart'
 
@@ -34,10 +33,6 @@ function ScrollToTop() {
 
 function AppContent() {
   const navigate = useNavigate()
-
-  const handleSelectProduct = (product: Product) => {
-    navigate(`/products/${product.id}`)
-  }
 
   const [favorites, setFavorites] = useState<string[]>(() => {
     const saved = localStorage.getItem('favorites')
@@ -57,8 +52,6 @@ function AppContent() {
   useEffect(() => {
     localStorage.setItem('cartItems', JSON.stringify(cartItems))
   }, [cartItems])
-
-  const [cartError, setCartError] = useState<string | null>(null)
 
   const [isCartModalOpen, setIsCartModalOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -84,7 +77,8 @@ function AppContent() {
         onBack={() => navigate('/products')}
         setCartItems={setCartItems}
         onOpenCartModal={handleOpenCartModal}
-        setCartError={setCartError}
+        favorites={favorites}
+        setFavorites={setFavorites}
       />
     )
   }
@@ -108,7 +102,6 @@ function AppContent() {
             path="/products"
             element={
               <List
-                onSelectProduct={handleSelectProduct}
                 setCartItems={setCartItems}
                 onOpenCartModal={handleOpenCartModal}
                 favorites={favorites}
@@ -135,7 +128,6 @@ function AppContent() {
             path="/favorites"
             element={
               <Favorites
-                onSelectProduct={handleSelectProduct}
                 setCartItems={setCartItems}
                 onOpenCartModal={handleOpenCartModal}
                 favorites={favorites}
