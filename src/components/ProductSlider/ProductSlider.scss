@@ -1,0 +1,22 @@
+@use '../../styles/global/index.scss' as *;
+
+.product-slider {
+  position: relative;
+
+  .item-list-item.swiper-slide {
+    height: auto;
+  }
+
+  .swiper-prev,
+  .swiper-next {
+    background: $color-primary;
+  }
+}
+
+.product-slider-list {
+  &.swiper {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}

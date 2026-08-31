@@ -96,7 +96,17 @@ function AppContent() {
       />
       <main className="main">
         <Routes>
-          <Route path="/" element={<Top />} />
+          <Route
+            path="/"
+            element={
+              <Top
+                setCartItems={setCartItems}
+                onOpenCartModal={handleOpenCartModal}
+                favorites={favorites}
+                setFavorites={setFavorites}
+              />
+            }
+          />
 
           <Route
             path="/products"
@@ -121,6 +131,9 @@ function AppContent() {
               <Cart
                 cartItems={cartItems}
                 setCartItems={setCartItems}
+                onOpenCartModal={handleOpenCartModal}
+                favorites={favorites}
+                setFavorites={setFavorites}
               />
             }
           />

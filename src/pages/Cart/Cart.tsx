@@ -1,18 +1,27 @@
-import './Cart.scss';
+import './Cart.scss'
 import type { CartItem } from '../../types/CartItem'
 import { products } from '../../data/products'
+import { getCartSliderProducts } from '../../utils/products'
 import { Link } from 'react-router-dom'
 import Select from '../../components/ui/Select/Select'
+import ProductSlider from '../../components/ProductSlider/ProductSlider'
 
 type Props = {
   cartItems: CartItem[]
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>
+  onOpenCartModal: () => void
+  favorites: string[]
+  setFavorites: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-export default function Cart({ 
+export default function Cart({
   cartItems,
   setCartItems,
+  onOpenCartModal,
+  favorites,
+  setFavorites,
 }: Props) {
+  const recommendedProducts = getCartSliderProducts(products, cartItems)
   const total = cartItems.reduce((sum, cartItem) => {
     const product = products.find(
       (product) => product.id === cartItem.productId
@@ -152,6 +161,15 @@ export default function Cart({
           </div>
         )}
       </div>
+      <ProductSlider
+        className="cart-recommended"
+        title="こちらもおすすめ"
+        products={recommendedProducts}
+        setCartItems={setCartItems}
+        onOpenCartModal={onOpenCartModal}
+        favorites={favorites}
+        setFavorites={setFavorites}
+      />
     </div>
   )
 }

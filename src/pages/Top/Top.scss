@@ -46,6 +46,13 @@
     background: $color-primary;
   }
 }
-.swiper-slide {
-  backface-visibility: visible !important;
+
+.top-new,.top-recommend {
+  padding-bottom: 90px;
+  .section-header {
+    font-size: 28px;
+    @include mq() {
+      margin-bottom: 10px;
+    }
+  }
 }

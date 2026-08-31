@@ -6,7 +6,7 @@ import { CartIcon } from '../icons'
 import { Link } from 'react-router-dom'
 import FavoriteButton from '../FavoriteButton/FavoriteButton'
 
-type Props = {
+export type ProductCardProps = {
   product: Product
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>
   onOpenCartModal: () => void
@@ -14,13 +14,26 @@ type Props = {
   setFavorites: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-export default function ProductCard({
+export function getProductCardClassName(
+  product: Product,
+  extraClassName?: string
+) {
+  return [
+    'item-list-item',
+    product.stock === 0 && 'is_soldout',
+    extraClassName,
+  ]
+    .filter(Boolean)
+    .join(' ')
+}
+
+export function ProductCardContent({
   product,
   setCartItems,
   onOpenCartModal,
   favorites,
   setFavorites,
-}: Props) {
+}: ProductCardProps) {
   const isSoldOut = product.stock === 0
 
   const handleAddCart = () => {
@@ -29,7 +42,7 @@ export default function ProductCard({
   }
 
   return (
-    <li className={`item-list-item ${isSoldOut ? 'is_soldout' : ''}`}>
+    <>
       <div className="item-list-item-img">
         <Link to={`/products/${product.id}`}>
           <img src={product.image} decoding="async" loading="lazy" alt={product.name} />
@@ -69,6 +82,14 @@ export default function ProductCard({
           )}
         </button>
       </div>
+    </>
+  )
+}
+
+export default function ProductCard(props: ProductCardProps) {
+  return (
+    <li className={getProductCardClassName(props.product)}>
+      <ProductCardContent {...props} />
     </li>
   )
 }

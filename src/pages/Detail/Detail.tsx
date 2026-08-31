@@ -2,10 +2,13 @@ import { useState } from 'react'
 import './Detail.scss'
 import type { Product } from '../../types/Product'
 import type { CartItem } from '../../types/CartItem'
+import { products } from '../../data/products'
 import { addToCartItems } from '../../utils/cart'
+import { getSameCategoryProducts, PRODUCT_SLIDER_MAX_COUNT } from '../../utils/products'
 import Select from '../../components/ui/Select/Select'
 import { CartIcon } from '../../components/icons'
 import FavoriteButton from '../../components/FavoriteButton/FavoriteButton'
+import ProductSlider from '../../components/ProductSlider/ProductSlider'
 
 type Props = {
   product: Product
@@ -18,13 +21,18 @@ type Props = {
 
 export default function Detail({
   product,
-  onBack,
   setCartItems,
   onOpenCartModal,
   favorites,
   setFavorites,
-}: Props) {  const [quantity, setQuantity] = useState('1')
+}: Props) {
+  const [quantity, setQuantity] = useState('1')
   const isSoldOut = product.stock === 0
+  const relatedProducts = getSameCategoryProducts(products, product.category, {
+    excludeIds: [product.id],
+    limit: PRODUCT_SLIDER_MAX_COUNT,
+  })
+
   const handleAddCart = () => {
     try {
       setCartItems((prev) =>
@@ -39,7 +47,9 @@ export default function Detail({
       onOpenCartModal()
     } catch {
       // カート追加失敗時はモーダルを開かない
-    }  }
+    }
+  }
+
   return (
     <div className="contents">
       <section className="detail-wrapper">
@@ -58,7 +68,8 @@ export default function Detail({
                 setFavorites={setFavorites}
               />
             </div>
-          </div>          <div className="detail-info">
+          </div>
+          <div className="detail-info">
             <div className="detail-header show-pc">
               <h1 className="detail-product-name">{product.name}</h1>
               <p className="detail-product-id">{product.id}</p>
@@ -78,20 +89,20 @@ export default function Detail({
               <dl className="detail-addcart-qty">
                 <dt className="detail-addcart-qty-label">数量</dt>
                 <dd className="detail-addcart-qty-select">
-                <Select
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                  disabled={product.stock === 0}
-                >
-                  {Array.from({ length: product.stock }, (_, i) => (
-                    <option
-                      key={i + 1}
-                      value={String(i + 1)}
-                    >
-                      {i + 1}
-                    </option>
-                  ))}
-                </Select>
+                  <Select
+                    value={quantity}
+                    onChange={(e) => setQuantity(e.target.value)}
+                    disabled={product.stock === 0}
+                  >
+                    {Array.from({ length: product.stock }, (_, i) => (
+                      <option
+                        key={i + 1}
+                        value={String(i + 1)}
+                      >
+                        {i + 1}
+                      </option>
+                    ))}
+                  </Select>
                 </dd>
               </dl>
               <div className="detail-addcart-btn">
@@ -113,12 +124,16 @@ export default function Detail({
             </div>
           </div>
         </div>
-        <div className="detail-footer">
-          <button onClick={onBack}>
-            一覧へ戻る
-          </button>
-        </div>
       </section>
+      <ProductSlider
+        className="detail-related"
+        title="この商品を見た方におすすめ"
+        products={relatedProducts}
+        setCartItems={setCartItems}
+        onOpenCartModal={onOpenCartModal}
+        favorites={favorites}
+        setFavorites={setFavorites}
+      />
     </div>
   )
 }

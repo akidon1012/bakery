@@ -72,7 +72,7 @@
         padding-right: 15px;
         flex-shrink: 0;
         img {
-          width: 120px;
+          width: 180px;
         }
       }
       &-name {
@@ -229,6 +229,12 @@
           }
         }
       }
+    }
+  }
+  &-recommended {
+    padding: 90px 0 60px;
+    @include mq() {
+      padding: 40px 0 40px;
     }
   }
 }
