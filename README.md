@@ -1,73 +1,156 @@
-# React + TypeScript + Vite
+# Bakery MUGI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScriptで制作した、架空のパン屋「Bakery MUGI」のECサイトです。
 
-Currently, two official plugins are available:
+これまでのECサイト開発で培った業務知識を活かしながら、React / TypeScriptを用いたモダンフロントエンド開発を実践することを目的として制作しました。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+商品一覧・詳細、キーワード検索、カテゴリ絞り込み、カート、お気に入り、レコメンドなど、実際のECサイトを想定した一連の閲覧・購入導線を実装しています。
 
-## React Compiler
+## Demo
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+https://bakery.akidon.net/
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React 19
+- TypeScript 5.9
+- Vite 8
+- React Router v7
+- Sass (SCSS)
+- Swiper 14
+- ESLint
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Data / State
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- TypeScriptによる静的商品データ
+- localStorageによるカート・お気に入り・レコメンド商品の保持
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+バックエンドAPIや決済機能は使用していません。
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Features
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 商品検索・閲覧
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- 商品一覧表示
+- キーワードによる商品検索
+- カテゴリによる絞り込み
+- 商品詳細表示
+- 在庫切れ商品のSOLD OUT表示
+- 在庫数に応じた購入数量の制御
+
+キーワード検索とカテゴリ絞り込みにはURLのクエリパラメータを使用しています。
+
+### Cart
+
+- 商品一覧・商品詳細・お気に入りからカートへ追加
+- 同一商品の数量を自動でまとめて管理
+- カート内商品の数量変更・削除
+- 在庫数を上限とした数量制御
+- 合計金額の自動計算
+- カート追加完了モーダル
+- localStorageによるカート内容の保持
+
+### Favorites
+
+- 商品一覧・商品詳細からお気に入りへ追加／解除
+- お気に入り商品の一覧表示
+- localStorageによるお気に入り情報の保持
+
+### Recommendations
+
+商品スライダーのUIを共通化しながら、ページの目的に応じて商品の選定ルールを変更しています。
+
+- TOP：ランダムに抽出したおすすめ商品
+- 商品詳細：現在の商品を除いた同カテゴリの商品
+- カート：カート内商品のカテゴリをもとに関連商品を優先して選定
+- カートに入っている商品はレコメンド対象から除外
+- 対象商品が不足する場合は他の商品から補完
+
+ランダム抽出した商品の選定結果をlocalStorageに一定時間保持し、表示のたびに商品が入れ替わらないようにしています。
+
+### UI / Navigation
+
+- React RouterによるSPAページ遷移
+- PC / スマートフォン対応のレスポンシブレイアウト
+- スマートフォン向けサイドメニュー
+- Swiperを使用したメインビジュアル・商品スライダー
+- スクロールに応じたヘッダー表示の切り替え
+- ページ遷移やメニュー操作に応じたスクロール位置の制御
+
+## Implementation & Design
+
+### 1. ECサイトとしてのUI / UX設計
+
+これまでのECサイト開発経験を活かし、商品を探す、詳細を確認する、カートに追加する、お気に入りとして保存するといった一連の導線を意識して設計しました。
+
+在庫切れ商品のSOLD OUT表示、在庫数を上限とした数量制御、同一商品のカート数量の統合など、ECサイトで必要となる状態や操作を想定して実装しています。
+
+また、PCとスマートフォンで操作方法が異なることを考慮し、画面サイズに応じた操作性にも配慮しています。
+
+### 2. コンポーネント設計とUIの再利用
+
+商品カード、お気に入りボタン、商品スライダー、Selectなど、複数の画面で使用するUIを共通コンポーネントとして切り出しています。
+
+特に商品スライダーは、表示する商品データを外部から受け取る構成とし、TOP・商品詳細・カートで同じUIを再利用しながら、それぞれ異なる条件の商品を表示できるようにしています。
+
+コンポーネントの責務を分けることで、重複する実装を減らし、変更時にも影響範囲を把握しやすい構成を意識しました。
+
+### 3. 状態管理とデータの永続化
+
+アプリ全体で共有するカート・お気に入り・メニュー開閉などの状態は、アプリの規模を考慮してReactのstateを中心に管理しています。
+
+外部の状態管理ライブラリは導入せず、必要な状態を上位コンポーネントで管理して各コンポーネントへ渡すシンプルな構成としています。
+
+カートとお気に入りはlocalStorageに保存し、ページを再読み込みした後も状態を保持できるようにしています。
+
+### 4. 検索・カテゴリとURL設計
+
+キーワード検索とカテゴリ絞り込みには、React Routerのクエリパラメータを使用しています。
+
+これにより、検索結果のURLをそのまま共有でき、ブラウザの戻る・進む操作でも検索状態を扱えるようにしています。
+
+ヘッダー・サイドメニュー・商品一覧など、複数のコンポーネントが同じURL情報を参照することで、検索・カテゴリ状態を一貫して扱えるようにしています。
+
+### 5. ページごとのレコメンドロジック
+
+商品スライダーのUIは共通化しながら、表示する商品の選定ルールはページの目的に応じて変更しています。
+
+TOPでは幅広い商品を見てもらうためにランダムに商品を抽出し、商品詳細では現在の商品を除いた同カテゴリの商品を表示しています。
+
+カートでは、カート内商品のカテゴリをもとに関連商品を優先して選び、すでにカートに入っている商品は除外しています。対象商品が不足する場合は、他の商品から補完します。
+
+また、ランダム抽出した商品の選定結果をlocalStorageに一定時間保持し、表示のたびに商品が入れ替わらないようにしています。
+
+### 6. レスポンシブ対応とアクセシビリティ
+
+SCSSのメディアクエリを利用し、PC・スマートフォンそれぞれの画面幅に合わせてレイアウトやナビゲーションを調整しています。
+
+スマートフォンのサイドメニューでは、メニュー表示中の背景スクロールを制御し、閉じた際には元のスクロール位置へ戻すことで、操作前後の位置関係が変わらないようにしています。
+
+また、お気に入りボタンには`aria-pressed`や`aria-label`を設定し、商品画像には内容に応じた`alt`属性を付与するなど、アクセシビリティにも配慮しています。
+
+## Development with AI
+
+開発では、ChatGPTやCursorなどの生成AIを、実装方法の検討、コード生成、エラーや不具合の原因調査、リファクタリングなどの補助として活用しました。
+
+AIが生成したコードをそのまま採用するのではなく、既存コードや要件との整合性、実際のブラウザ上での挙動、保守性などを確認しながら、採用する方法を判断しています。
+
+期待した動作にならない場合には原因を切り分け、AIへの追加指示や自分での修正を行っています。また、複数の実装方法が考えられる場合には、それぞれのメリット・デメリットを比較し、サイトの規模や目的に合った方法を選択しています。
+
+生成AIを単なるコード生成ツールとしてではなく、調査や検討を効率化するための開発支援ツールとして活用し、最終的な実装内容や品質については自分で確認・判断することを大切にしています。
+
+## What I Learned
+
+Bakery MUGIの制作を通じて、React / TypeScriptの基本的な使い方だけでなく、コンポーネントの責務をどのように分けるか、状態をどこで管理するか、複数の画面で使う処理やUIをどのように共通化するかなど、Reactを使ったアプリケーション設計を実践的に経験しました。
+
+特に、これまでJavaScriptで行ってきたDOM操作を中心とした実装と比較することで、UIを状態から組み立てるReactの考え方への理解が深まりました。
+
+機能追加を重ねる中で、状態や処理を適切な場所へ移動したり、共通コンポーネントやユーティリティとして切り出したりするなど、アプリケーションの成長に合わせて構成を見直す経験も得られました。
+
+また、ECサイトの業務やUIに関するこれまでの知識は、使用する技術が変わっても活かせることを改めて実感しました。新しい技術を習得することに加えて、既存の経験と組み合わせながら、要件に応じて適切な実装方法を選択することの重要性を学びました。
+
+## About This Project
+
+本サイトはポートフォリオ用に制作した架空のECサイトです。
+
+実際の商品販売・注文処理は行っておらず、バックエンドAPIや決済機能は実装していません。
