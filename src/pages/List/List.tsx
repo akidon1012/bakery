@@ -1,10 +1,9 @@
 import { useSearchParams } from 'react-router-dom'
-import './List.scss';
+import './List.scss'
 import ProductList from '../../components/ProductList/ProductList'
 import { products } from '../../data/products'
 import type { CartItem } from '../../types/CartItem'
 import { categories } from '../../data/categories'
-
 type Props = {
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>
   onOpenCartModal: () => void
@@ -18,13 +17,13 @@ export default function List({
   favorites,
   setFavorites,
 }: Props) {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
   const categoryCode = searchParams.get('category') ?? 'ALL'
   const searchQuery = searchParams.get('q') ?? ''
+
   const selectedCategory = categories.find(
     (category) => category.code === categoryCode
   )
-
   const filteredProducts = products.filter((product) => {
     const matchQuery = product.name.includes(searchQuery)
     const matchCategory =
