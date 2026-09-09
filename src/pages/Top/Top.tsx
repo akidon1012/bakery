@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useId } from 'react'
 import './Top.scss'
 import { Link } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -55,26 +55,27 @@ export default function Top({
     products,
     PRODUCT_SLIDER_CACHE_KEYS.topRecommended
   )
-  const prevRef = useRef<HTMLButtonElement>(null)
-  const nextRef = useRef<HTMLButtonElement>(null)
-  const paginationRef = useRef<HTMLDivElement>(null)
+  const mvId = useId().replace(/:/g, '')
+  const prevId = `mv-prev-${mvId}`
+  const nextId = `mv-next-${mvId}`
+  const paginationId = `mv-pagination-${mvId}`
 
   return (
     <div>
       <section className="top-mv">
       <button
           type="button"
-          ref={prevRef}
+          id={prevId}
           className="swiper-prev"
           aria-label="前のスライド"
         />
         <button
           type="button"
-          ref={nextRef}
+          id={nextId}
           className="swiper-next"
           aria-label="次のスライド"
         />
-        <div ref={paginationRef} className="swiper-dots" />
+        <div id={paginationId} className="swiper-dots" />
         <Swiper
           className="top-mv-list swiper"
           modules={[Autoplay, Navigation, Pagination]}
@@ -93,22 +94,13 @@ export default function Top({
             },
           }}
           navigation={{
-            prevEl: prevRef.current,
-            nextEl: nextRef.current,
+            prevEl: `#${prevId}`,
+            nextEl: `#${nextId}`,
           }}
           pagination={{
-            el: paginationRef.current,
+            el: `#${paginationId}`,
             clickable: true,
-          }}
-          onBeforeInit={(swiper) => {
-            if (typeof swiper.params.navigation === 'object') {
-              swiper.params.navigation.prevEl = prevRef.current
-              swiper.params.navigation.nextEl = nextRef.current
-            }
-            if (typeof swiper.params.pagination === 'object') {
-              swiper.params.pagination.el = paginationRef.current
-            }
-          }}
+          }} 
         >
           {mvSlides.map((slide, index) => (
             <SwiperSlide key={`mv-${index}`} className="top-mv-list-item">

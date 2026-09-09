@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import type { FormEvent } from 'react'
 import './Header.scss';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
@@ -16,13 +16,8 @@ type Props = {
 export default function Header({ cartItems, isMenuOpen, setIsMenuOpen }: Props) {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const [searchInput, setSearchInput] = useState(
-    () => searchParams.get('q') ?? ''
-  )
-
-  useEffect(() => {
-    setSearchInput(searchParams.get('q') ?? '')
-  }, [searchParams])
+  const searchInputRef = useRef<HTMLInputElement>(null)
+  const searchQuery = searchParams.get('q') ?? ''
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,7 +41,7 @@ export default function Header({ cartItems, isMenuOpen, setIsMenuOpen }: Props) 
   }, [])
 
   const handleSearch = () => {
-    const q = searchInput.trim()
+    const q = searchInputRef.current?.value.trim() ?? ''
     const params = new URLSearchParams()
 
     if (q) {
@@ -118,10 +113,11 @@ export default function Header({ cartItems, isMenuOpen, setIsMenuOpen }: Props) 
           </ul>
           <form className="header-search" onSubmit={handleSearchSubmit}>
             <input
+              key={searchQuery}
+              ref={searchInputRef}
               name="search"
               type="text"
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
+              defaultValue={searchQuery}
               placeholder="商品名で検索"
             />
             <button
@@ -135,7 +131,10 @@ export default function Header({ cartItems, isMenuOpen, setIsMenuOpen }: Props) 
               type="button"
               className="header-search-clear"
               onClick={() => {
-                setSearchInput('')
+                if (searchInputRef.current) {
+                  searchInputRef.current.value = ''
+                }
+
                 const params = new URLSearchParams()
                 const category = searchParams.get('category')
 

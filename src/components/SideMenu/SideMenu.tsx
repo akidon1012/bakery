@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import type { FormEvent } from 'react'
 import './SideMenu.scss';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
@@ -14,14 +14,8 @@ export default function SideMenu({ isOpen, onClose }: Props) {
   const navigate = useNavigate()
   const skipScrollRestoreRef = useRef(false)
   const [searchParams] = useSearchParams()
-  const [searchInput, setSearchInput] = useState(
-    () => searchParams.get('q') ?? ''
-  )
-
-  useEffect(() => {
-    setSearchInput(searchParams.get('q') ?? '')
-  }, [searchParams])
-
+  const searchInputRef = useRef<HTMLInputElement>(null)
+  const searchQuery = searchParams.get('q') ?? ''
   useEffect(() => {
     if (!isOpen) return
 
@@ -56,7 +50,7 @@ export default function SideMenu({ isOpen, onClose }: Props) {
   }
 
   const handleSearch = () => {
-    const q = searchInput.trim()
+    const q = searchInputRef.current?.value.trim() ?? ''
     const params = new URLSearchParams()
 
     if (q) {
@@ -65,7 +59,10 @@ export default function SideMenu({ isOpen, onClose }: Props) {
 
     const queryString = params.toString()
     const nextPath = queryString ? `/products?${queryString}` : '/products'
-    const currentPath = `/products${searchParams.toString() ? `?${searchParams.toString()}` : ''}`
+
+    const currentPath =
+      `/products${searchParams.toString() ? `?${searchParams.toString()}` : ''}`
+
     navigate(nextPath)
     closeMenu({ scrollToTop: nextPath !== currentPath })
   }
@@ -81,10 +78,11 @@ export default function SideMenu({ isOpen, onClose }: Props) {
         <div className="sidemenu-search">
           <form onSubmit={handleSearchSubmit}>
             <input
+              key={searchQuery}
+              ref={searchInputRef}
               name="search"
               type="text"
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
+              defaultValue={searchQuery}
               placeholder="商品名で検索"
             />
             <button
@@ -98,7 +96,10 @@ export default function SideMenu({ isOpen, onClose }: Props) {
               type="button"
               className="sidemenu-search-clear"
               onClick={() => {
-                setSearchInput('')
+                if (searchInputRef.current) {
+                  searchInputRef.current.value = ''
+                }
+
                 const params = new URLSearchParams()
                 const category = searchParams.get('category')
 

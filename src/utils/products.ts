@@ -184,3 +184,16 @@ export const PRODUCT_SLIDER_CACHE_KEYS = {
   topRecommended: 'productSlider:top:recommended',
   cartRecommended: 'productSlider:cart:recommended',
 } as const
+
+export function getProductCardClassName(
+  product: Product,
+  extraClassName?: string
+) {
+  return [
+    'item-list-item',
+    product.stock === 0 && 'is_soldout',
+    extraClassName,
+  ]
+    .filter(Boolean)
+    .join(' ')
+}

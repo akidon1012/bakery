@@ -1,18 +1,17 @@
-import { useRef } from 'react'
+import { useId } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
 import 'swiper/css'
 import './ProductSlider.scss'
 import type { Product } from '../../types/Product'
 import type { CartItem } from '../../types/CartItem'
+import { ProductCardContent } from '../ProductCard/ProductCard'
+
 import {
+  getProductCardClassName,
   PRODUCT_SLIDER_SLIDES_PER_GROUP_PC,
   PRODUCT_SLIDER_SLIDES_PER_VIEW_PC,
 } from '../../utils/products'
-import {
-  getProductCardClassName,
-  ProductCardContent,
-} from '../ProductCard/ProductCard'
 
 type Props = {
   className: string
@@ -33,8 +32,9 @@ export default function ProductSlider({
   favorites,
   setFavorites,
 }: Props) {
-  const prevRef = useRef<HTMLButtonElement>(null)
-  const nextRef = useRef<HTMLButtonElement>(null)
+  const sliderId = useId().replace(/:/g, '')
+  const prevId = `product-slider-prev-${sliderId}`
+  const nextId = `product-slider-next-${sliderId}`
 
   if (products.length === 0) return null
 
@@ -51,13 +51,13 @@ export default function ProductSlider({
       <div className="product-slider">
         <button
           type="button"
-          ref={prevRef}
+          id={prevId}
           className="swiper-prev"
           aria-label="前の商品"
         />
         <button
           type="button"
-          ref={nextRef}
+          id={nextId}
           className="swiper-next"
           aria-label="次の商品"
         />
@@ -76,14 +76,8 @@ export default function ProductSlider({
             },
           }}
           navigation={{
-            prevEl: prevRef.current,
-            nextEl: nextRef.current,
-          }}
-          onBeforeInit={(swiper) => {
-            if (typeof swiper.params.navigation === 'object') {
-              swiper.params.navigation.prevEl = prevRef.current
-              swiper.params.navigation.nextEl = nextRef.current
-            }
+            prevEl: `#${prevId}`,
+            nextEl: `#${nextId}`,
           }}
         >
           {products.map((product) => (

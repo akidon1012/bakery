@@ -1,6 +1,7 @@
 import './ProductCard.scss'
 import type { Product } from '../../types/Product'
 import type { CartItem } from '../../types/CartItem'
+import { getProductCardClassName } from '../../utils/products'
 import { addToCartItems } from '../../utils/cart'
 import { CartIcon } from '../icons'
 import { Link } from 'react-router-dom'
@@ -12,19 +13,6 @@ export type ProductCardProps = {
   onOpenCartModal: () => void
   favorites: string[]
   setFavorites: React.Dispatch<React.SetStateAction<string[]>>
-}
-
-export function getProductCardClassName(
-  product: Product,
-  extraClassName?: string
-) {
-  return [
-    'item-list-item',
-    product.stock === 0 && 'is_soldout',
-    extraClassName,
-  ]
-    .filter(Boolean)
-    .join(' ')
 }
 
 export function ProductCardContent({
